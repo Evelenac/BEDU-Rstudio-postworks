@@ -43,7 +43,41 @@ str(datos)
 De esta forma realizamos un primer acercamiento a la información contenida en el data frame, como lo son el número de variables y el tipo de estas, o bien la cantidad de registros. También podemos optar por utilizar la función `dim()` si no queremos desplegar tanta información en nustra consola.
 
 
+Para extraer las columnas FTHG y FTAG se utilizará la función `select()` de la librería `dplyr`, por lo que primero se llama a la librería para poder aplicar la función, una nueva variable es guardada únicamente con las columnas necesarias o podemos sobreescribir sobre la anterior.
 
+```R
+lbrary(dplyr)
+df <- select(datos, FTHG,FTAG)
+```
 
+Ahora se convierte el data frame en una tabla con la función `table ()`, guardando la tabla en una nueva variable, para aplicar funciones marginales y obtener las probabilidades de goles de casa y visita.
 
+```R
+t1 <- table(df)
+t1
 
+margin.table(t1)
+margin.table(t1,1)
+margin.table(t1,2)
+```
+
+Con las funciones marginales siendo aplicadas se puede proceder a calcular la probabilidad marginal de que el equipo que juega en casa o visita anote una cantidad "X" de goles
+
+```R
+prob.casa <- margin.table(t1,1)/margin.table(t1)
+prob.visita <- margin.table(t1,2)/margin.table(t1)
+```
+
+Para la probabilidad conjunta, RStudio cuenta con la función `prop.table()`, la cual puede calcular la probabilidad conjunta de una tabla.
+
+```R
+prob.conjunta <- prop.table(t1)
+```
+
+Finalmente se muestran los resultados de las 3 probabilidad soliitadas por en las instrucciones.
+
+```R
+prob.casa
+prob.visita
+prob.conjunta
+```
